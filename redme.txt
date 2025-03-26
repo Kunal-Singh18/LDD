@@ -1,0 +1,44 @@
+insmod module
+
+1. calls init_module() to hint the kernel 
+that a module insertion is attempted.
+2. transfers control to the kernel
+3. kernel executes sys_init_module()
+4.verifies permissions
+5.load_module function is called
+    1.checks the sanity of the .ko
+    2.creates memory
+    3.copies from user space to kernel space.
+    4.ressolves sysmbols.
+    5. returns a reference to the kernel.
+6.adds the reference to a linked list that has all the loaded modules
+7.module_init() listed function
+
+
+rmmod module
+
+1.rmmod calls delete_module() which hints the kernel that a module
+is to be removed.
+    1.control is transferred to the kernel
+
+2.kernel executes sys_delete_module()
+    1.checks the permissions of the one requesting
+    2.checks if any other loaded modules needs the current module
+    3.checks if the module is actually loaded!
+    4.executes the functiion provided in module_exit()
+    5.free_module()
+        1.removes references and kernel object reference.
+        2.performs any other cleanup.
+        3.unloads the module
+        4.changes the state in list
+        5.removes it from the list and frees the memory.
+ 
+
+flags for file handling in C language.
+
+O_RDONLY	Open for reading only
+O_WRONLY	Open for writing only
+O_RDWR	    Open for reading and writing
+O_CREAT	    Create the file if it doesn’t exist
+O_TRUNC	    Truncate file to zero length if it exists
+O_APPEND	Append data to the file
